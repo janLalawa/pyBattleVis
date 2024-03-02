@@ -23,6 +23,7 @@ class ViewGeneratorApp:
         self.type_var = None
         self.root = root
         self.root.title(UiText.APP_TITLE)
+        self.view_data = ViewData()
 
         # Main frame
         self.main_frame = ttk.Frame(self.root, padding="10")
@@ -75,12 +76,18 @@ class ViewGeneratorApp:
 
         wreck_list_a, wreck_list_b = facade.create_both_wreck_lists(url)
 
+        self.view_data.wreck_list_a = wreck_list_a
+        self.view_data.wreck_list_b = wreck_list_b
+        self.view_data.scale_multiplier = scale_multiplier
+        self.view_data.texture_type = type_selection
+        self.view_data.br_link = url
+
         logger.info(f"Length of wreck_list_a: {len(wreck_list_a)}")
         logger.info(f"Length of wreck_list_b: {len(wreck_list_b)}")
         logger.info("Spinning up the graphics engine. This may take a moment!")
 
         self.root.destroy()
-        facade.run_main_program(wreck_list_a, wreck_list_b, type_selection, float(scale_multiplier))
+
 
 
 
@@ -95,4 +102,5 @@ def start_ui():
     root = tk.Tk()
     app = ViewGeneratorApp(root)
     root.mainloop()
-    return app.url_entry.get()
+    view_data = app.view_data
+    return view_data
