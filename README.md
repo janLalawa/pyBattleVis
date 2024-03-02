@@ -2,7 +2,7 @@
 A tool to visualize zkillboard losses in the position of the system they were lost in.
 Currently it will only work within one grid and displays the loss coordinates as a 3D object.
 
-![Screenshot](screenshot2.png)
+![Screenshot](screenshot1.png)
 
 
 ---
@@ -10,14 +10,15 @@ Currently it will only work within one grid and displays the loss coordinates as
 ### How does it work?
 
 - When running main.py currently...
-- It will take a list of zkillboard links, strip the ID out, and create Wreck objects.
+- It will take a zkillboard battle report and parse it for the losses using the API.
+- Note that you must use a report with a solarsystemid and a timestamp. Do not use saved ones.
 - Wreck objects contain all the info about the wreck, including coordinates.
 - The tool then scales coordinates down to their locals by running modulo and taking the last few digits.
-- Scaling down further by 2000 brings them to a reasonable size for the window.
-- The coordinate are then plotted (as cats, fish, or cubes, not wrecks yet) on the window.
+- Scaling down further by 1000 brings them to a reasonable size for the window to represent a grid in-game.
+- The coordinate are then plotted as cubes that represent the ship or character that died.
+- Cubes are coloured blue or red depending on the team in the battle report.
 
-Alt or Cmd+Tab out when starting to resolve a bug with the camera.
-You can then click back in and hold right click to bind the mouse to the window. (so you can fly).
+Hold right click to bind the mouse to the window. (so you can fly).
 
 WASD controls the flight. Press Esc to quit.
 
@@ -34,14 +35,15 @@ WASD controls the flight. Press Esc to quit.
 
 ### To Do (eventually...)
 
-- [ ] Add a better wreck model
+- [x] Add a better wreck model (Kinda? It's a cube now with textures of the ship that died)
 - [ ] Add camera control hints to the screen
-- [ ] Add a skybox
+- [x] Add a skybox
 - [ ] Add another model to the screen so you can better understand the scale
 - [ ] Improve the lighting
-- [ ] Fix the bug with the camera not capturing right click on start
+- [x] Fix the bug with the camera not capturing right click on start
 
 ---
 
-**Cats!**
-![Screenshot](screenshot1.png)
+
+![Screenshot](screenshot2.png)
+![Screenshot](screenshot3.png)
