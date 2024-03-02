@@ -3,6 +3,7 @@ import json
 from modules.config.logger import setup_logging
 import time
 import re
+from modules.config.constants import Constants
 
 logger = setup_logging()
 
@@ -96,6 +97,7 @@ def get_esi_data(kill_hash: str, zkill_id: str) -> dict:
     :return: esi data Json dict
     """
     logger.info(f"Getting ESI data for {zkill_id}")
+    time.sleep(Constants.ESI_RATE_LIMIT_SECONDS)
     esi_response = requests.get(
         'https://esi.evetech.net/latest/killmails/' + zkill_id + '/' + kill_hash + '/?datasource=tranquility')
     logger.info(f"API Response Code: {esi_response.status_code} and reason: {esi_response.reason}")

@@ -1,6 +1,6 @@
 import requests, json, os, time
 from modules.config.logger import setup_logging
-from modules.config.constants import Paths
+from modules.config.constants import Paths, ShipScales
 
 logger = setup_logging()
 
@@ -145,7 +145,17 @@ class Wreck:
             self.ship_img_path = file_path
         return self
 
-    def populate_ship_scale(self):
+    def populate_ship_scale_from_value(self, multiplier: float = 1.0):
         if self.total_value:
             self.ship_scale = self.total_value / 200000000
+        else: self.ship_scale = 0.6
+        self.ship_scale *= multiplier
+        return self
+
+    def populate_ship_scale_from_size(self, multiplier: float = 1.0):
+        if 'vGroupID' in self.zkill_data[0]:
+            self.ship_scale = ShipScales.SCALE_DICT.get(self.zkill_data[0]['vGroupID'], 0.6)
+        else:
+            self.ship_scale = 0.6
+        self.ship_scale *= multiplier
         return self
