@@ -1,14 +1,14 @@
 import glm
 import pygame as pg
 
-FOV = 90.0
+FOV = 80.0
 NEAR = 0.1
 FAR = 350.0
 SPEED = 0.04
 SENSITIVITY = 0.1
 
 class Camera:
-    def __init__(self, app, position=(15, 30, 12), yaw=180, pitch=-30):
+    def __init__(self, app, position=(-30, 90, 80), yaw=2, pitch=-30):
         self.app = app
         self.aspect_ratio = app.WIN_SIZE[0] / app.WIN_SIZE[1]
         self.position = glm.vec3(position)
@@ -21,6 +21,9 @@ class Camera:
         self.m_projection = self.get_projection_matrix()
 
     def rotate(self):
+        """
+        Rotates the camera based on mouse movement
+        """
         if pg.key.get_focused():
             rel_x, rel_y = pg.mouse.get_rel()
             self.yaw += rel_x * SENSITIVITY
@@ -30,6 +33,9 @@ class Camera:
             self.forward.x = glm.cos(glm.radians(self.yaw)) * glm.cos(glm.radians(self.pitch))
 
     def update_camera_vectors(self):
+        """
+        Updates the camera vectors based on the current yaw and pitch
+        """
         yaw, pitch = glm.radians(self.yaw), glm.radians(self.pitch)
 
         self.forward.x = glm.cos(yaw) * glm.cos(pitch)
@@ -41,6 +47,9 @@ class Camera:
         self.up = glm.normalize(glm.cross(self.right, self.forward))
 
     def update(self):
+        """
+        Updates the camera's view and projection matrices
+        """
         self.move()
         self.rotate()
         self.update_camera_vectors()
@@ -48,6 +57,9 @@ class Camera:
         self.m_projection = self.get_projection_matrix()
 
     def move(self):
+        """
+        Moves the camera based on keyboard input
+        """
         velocity = SPEED * self.app.delta_time
         keys = pg.key.get_pressed()
         if keys[pg.K_w]:
@@ -60,7 +72,13 @@ class Camera:
             self.position += self.right * velocity
 
     def get_view_matrix(self):
+        """
+        Returns the view matrix for the camera
+        """
         return glm.lookAt(self.position, self.position + self.forward, self.up)
 
     def get_projection_matrix(self):
+        """
+        Returns the projection matrix for the camera
+        """
         return glm.perspective(glm.radians(FOV), self.aspect_ratio, NEAR, FAR)

@@ -31,6 +31,11 @@ class GraphicsEngine:
         self.hold_mouse_centre = True
 
     def check_events(self):
+        """
+        Check for events
+        Checks for quit event and escape key press
+        Checks for right mouse button press and release to hold mouse centre
+        """
         for event in pg.event.get():
             if event.type == pg.QUIT or (event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE):
                 self.mesh.destroy()
@@ -42,14 +47,23 @@ class GraphicsEngine:
                 self.hold_mouse_centre = False
 
     def render(self):
+        """
+        Render the scene
+        """
         self.ctx.clear(0.03, 0.88, 0.59)
         self.scene.render()
         pg.display.flip()
 
     def get_time(self):
+        """
+        Get the current time (ticks / 1000)
+        """
         self.time = pg.time.get_ticks() / 1000
 
     def handle_mouse_window_focus(self):
+        """
+        Handle mouse window focus
+        """
         if pg.key.get_focused():
             pg.event.set_grab(False)
             if self.hold_mouse_centre:
@@ -57,6 +71,9 @@ class GraphicsEngine:
                 pg.mouse.set_visible(False)
 
     def run(self):
+        """
+        Run the graphics engine
+        """
         while True:
             self.get_time()
             self.check_events()
@@ -68,7 +85,6 @@ class GraphicsEngine:
 
 def main():
     app = GraphicsEngine()
-
     app.run()
 
 

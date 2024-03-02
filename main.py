@@ -1,38 +1,44 @@
-from modules.helpers.helpers import get_zkill_id_from_link
-from modules.controllers.kill_data_controllers import get_zkill_and_esi_data, create_wreck_from_killData, scale_wreck
-from modules.models.killdata import KillData
-from modules.graphics.graphics_engine import GraphicsEngine
-from modules.graphics.model import Fish, Cat, Cube
+import time
 
-zkill_link_list = ['https://zkillboard.com/kill/107761136/',
-                   'https://zkillboard.com/kill/107761119/',
-                   'https://zkillboard.com/kill/107760928/',
-                   'https://zkillboard.com/kill/107760946/',
-                   'https://zkillboard.com/kill/107761063/',
-                   'https://zkillboard.com/kill/107760999/']
+import modules.controllers.facade as facade
+from modules.graphics.graphics_engine import GraphicsEngine
+from modules.controllers.texture_controller import create_mgl_textures_from_wreck_list
+from modules.controllers.scene_controller import build_scene_from_wreck_list
+from modules.config.logger import setup_logging
+
+logger = setup_logging()
+
+TEXTURE_TYPE = 'ship'
+# ZKILL_BR_LINK = 'https://zkillboard.com/related/31001761/202012040000'
+ZKILL_BR_LINK = 'https://zkillboard.com/related/30002807/202403020300/'
+# ZKILL_BR_LINK = 'https://zkillboard.com/related/31001880/202403020200/'
+
 
 def main() -> None:
-    wreck_list = []
+    wreck_list_a, wreck_list_b = facade.create_both_wreck_lists(ZKILL_BR_LINK)
+    logger.info(f"Length of wreck_list_a: {len(wreck_list_a)}")
+    logger.info(f"Length of wreck_list_b: {len(wreck_list_b)}")
 
-    for zkill_link in zkill_link_list:
-        zkill_id = get_zkill_id_from_link(zkill_link)
-        zkill_data, esi_data = get_zkill_and_esi_data(zkill_id)
-        kill_data_obj = KillData(zkill_id, zkill_data, esi_data)
-        wreck = create_wreck_from_killData(kill_data_obj)
-        if wreck is not None:
-            wreck_list.append(wreck)
+    logger.info("Spinning up the graphics engine. This may take a moment!")
 
-    for wreck in wreck_list:
-        print(f"pos_x: {wreck.pos_x}, pos_y: {wreck.pos_y}, pos_z: {wreck.pos_z}")
-        wreck = scale_wreck(wreck)
-        print(f"pos_x: {wreck.pos_x}, pos_y: {wreck.pos_y}, pos_z: {wreck.pos_z}")
+    time.sleep(3)  # Give the logger time to catch up and let the user know it's not frozen.
 
     app = GraphicsEngine()
 
-    for wreck in wreck_list:
-        app.scene.add_object(
-            Cube(app, tex_id=4, pos=(wreck.pos_x, wreck.pos_y, wreck.pos_z), scale=(0.6, 0.6, 0.6)))
+    logger.info("Creating ModernGL textures from wreck lists")
+    create_mgl_textures_from_wreck_list(app, tex_type=TEXTURE_TYPE, wreck_list=wreck_list_a)
+    create_mgl_textures_from_wreck_list(app, tex_type=TEXTURE_TYPE, wreck_list=wreck_list_b)
 
+    # for wreck in wreck_list_a:
+    #     wreck.populate_ship_scale()
+    # for wreck in wreck_list_b:
+    #     wreck.populate_ship_scale()
+
+    logger.info("Building scene from wreck lists")
+    build_scene_from_wreck_list(app, tex_type=TEXTURE_TYPE, vao_name='cube_red', wreck_list=wreck_list_a)
+    build_scene_from_wreck_list(app, tex_type=TEXTURE_TYPE, vao_name='cube_blue', wreck_list=wreck_list_b)
+
+    logger.info("Rendering the scene")
     app.run()
 
 
