@@ -1,9 +1,9 @@
 ## zkillBattleVis
-A tool to visualize zkillboard losses in the position of the system they were lost in.
-Currently it will only work within one grid and displays the loss coordinates as a 3D object.
+An EVE Online tool to visualize zkillboard battle report losses in the position of the system they were lost in.
 
 ![Screenshot](screenshot1.png)
 
+![Screenshot](screenshot2.png)
 
 ---
 
@@ -18,9 +18,40 @@ Currently it will only work within one grid and displays the loss coordinates as
 - The coordinate are then plotted as cubes that represent the ship or character that died.
 - Cubes are coloured blue or red depending on the team in the battle report.
 
-Hold right click to bind the mouse to the window. (so you can fly).
+---
 
-WASD controls the flight. Press Esc to quit.
+### How to use
+
+- Clone the repository using `git clone
+- If you don't have it already, install Python 3.12
+- Install the requirements using `pip install -r requirements.txt`
+- Run the program using `python main.py`
+- Enter a zkillboard battle report URL when prompted alongside a multiplier value for the wreck sizes (1 is fine)
+- Wait a little bit. It will take about 20 seconds for a small BR and 2 minutes for a large one for example.
+- Hold right click to bind the camera so you can look around
+- Use WASD to fly
+- Press Escape to exit
+
+---
+
+### Known issues
+
+- The application appears to hang when it is loading. Just be patient.
+- If you provide a battle report without kills on both sides, it falls over while looking for a list that doesn't exist
+This is an easy fix, but I just want to get this version out there.
+- In my brief test on Windows, my graphics engine failed to render lighting properly.
+Not sure if this is a big issue
+
+---
+
+### How to contribute
+
+- If you want to contribute, feel free to fork the repo and make a pull request.
+- If you want to report a bug, please use the issues tab.
+- If you want to suggest a feature, please use the issues tab.
+
+No guarantee that I'll fix this or even make a new version. This was just for fun. 
+Happy for anyone to take it and run with it.
 
 ---
 
@@ -41,9 +72,17 @@ WASD controls the flight. Press Esc to quit.
 - [ ] Add another model to the screen so you can better understand the scale
 - [ ] Improve the lighting
 - [x] Fix the bug with the camera not capturing right click on start
+- [ ] Bugfixese (see known issues)
+- [ ] If I really wanted to develop this properly, build it in an actual engine rather than my own custom one
 
 ---
 
 
-![Screenshot](screenshot2.png)
+
 ![Screenshot](screenshot3.png)
+
+---
+
+![Screenshot](screenshot4.png)
+![Screenshot](screenshot5.png)
+![Screenshot](screenshot6.png)
