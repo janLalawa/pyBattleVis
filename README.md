@@ -1,6 +1,10 @@
 ## zkillBattleVis
 An EVE Online tool to visualize zkillboard battle report losses in the position of the system they were lost in.
 
+> There is currently an issue with the shader rendering on Windows, sorry. You can still make use of this tool, though, to build Wreck objects.
+> Run `import modules.controllers.facade as facade` and `wreck_list_a, wreck_list_b = facade.create_both_wreck_lists(br_url)` to create them.
+> They contain positional data and pretty much everything else you need to work with this.
+
 ![Screenshot](screenshot1.png)
 
 ![Screenshot](screenshot2.png)
