@@ -11,6 +11,8 @@ An EVE Online tool to visualize zkillboard battle report losses in the position 
 
 ---
 
+[https://ashy.vargur.dev/zkillboard-3d-br-viewer-v1-0/](https://ashy.vargur.dev/zkillboard-3d-br-viewer-v1-0/)
+
 ### How does it work?
 
 - When running main.py currently...
